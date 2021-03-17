@@ -2,6 +2,7 @@ package ir;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,6 +21,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.snu.ids.kkma.index.Keyword;
+import org.snu.ids.kkma.index.KeywordExtractor;
+import org.snu.ids.kkma.index.KeywordList;
 
 
 
@@ -30,6 +34,7 @@ public class IRexample {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance(); 
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		org.w3c.dom.Document xml = docBuilder.newDocument();
+		org.w3c.dom.Document kkma = docBuilder.newDocument();
 		//확인용 주석
 		File folder = new File("src/data");
 		int fileNum = checkFiles(folder);
@@ -39,20 +44,27 @@ public class IRexample {
 		for (int i=0; i<fileNum; i++) 
 			fName[i] = "src/data/" + fName[i];
 		
-		org.w3c.dom.Element docs = xml.createElement("docs");
-		xml.appendChild(docs);
-				
+		org.w3c.dom.Element xmldocs = xml.createElement("docs");
+		xml.appendChild(xmldocs);
+		org.w3c.dom.Element kkmadocs = kkma.createElement("docs");
+		kkma.appendChild(kkmadocs);
+		
 		for( int i=0; i<fileNum; i++) 	
-			makeXml(fName, i, xml, docs);
-			
+			makeXml(fName, i, xml, xmldocs);
+		for( int i=0; i<fileNum; i++) 	
+			makeKkma(fName, i, kkma, kkmadocs);
+		
 		TransformerFactory tff = TransformerFactory.newInstance();
 		Transformer tf = tff.newTransformer();
 		tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		
-		DOMSource source = new DOMSource(xml);
-		StreamResult result = new StreamResult(new FileOutputStream(new File("src/collection.xml")));
+		DOMSource xmlSource = new DOMSource(xml);
+		StreamResult xmlResult = new StreamResult(new FileOutputStream(new File("src/collection.xml")));
+		DOMSource kkmaSource = new DOMSource(kkma);
+		StreamResult kkmaResult = new StreamResult(new FileOutputStream(new File("src/index.xml")));
 		
-		tf.transform(source, result);
+		tf.transform(xmlSource, xmlResult);
+		tf.transform(kkmaSource, kkmaResult);
 		System.out.println("실행 완료");
 	}
 
@@ -97,5 +109,38 @@ public class IRexample {
 		doc.appendChild(body);
 		
 		
+	}
+	
+	public static void makeKkma(String[] name, int num, org.w3c.dom.Document xml, org.w3c.dom.Element docs) throws IOException {
+		File html = new File(name[num]);
+		FileReader fr = new FileReader(html);
+		
+		String str = "";
+		int ch = fr.read();
+		while(ch != -1) {
+			str += (char)ch;
+			ch = fr.read();
+		}
+		
+		Document hp = Jsoup.parse(str);
+				
+		org.w3c.dom.Element doc = xml.createElement("doc");
+		docs.appendChild(doc);
+		doc.setAttribute("id", String.valueOf(num));
+		
+		org.w3c.dom.Element title = xml.createElement("title");
+		title.appendChild(xml.createTextNode(hp.title()));
+		doc.appendChild(title);
+		
+		String bodyText = hp.body().text();
+		KeywordExtractor ke = new KeywordExtractor();
+		KeywordList kl = ke.extractKeyword(bodyText, true);
+		
+		org.w3c.dom.Element body = xml.createElement("body");
+		for (int i=0; i<kl.size(); i++) {
+			Keyword kwrd = kl.get(i);
+			body.appendChild(xml.createTextNode(kwrd.getString()+":"+kwrd.getCnt()+"#"));
+		}
+		doc.appendChild(body);
 	}
 }
