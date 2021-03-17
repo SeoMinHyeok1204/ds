@@ -30,7 +30,7 @@ public class IRexample {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance(); 
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		org.w3c.dom.Document xml = docBuilder.newDocument();
-		
+		//확인용 주석
 		File folder = new File("src/data");
 		int fileNum = checkFiles(folder);
 		String[] fName = new String[fileNum];
