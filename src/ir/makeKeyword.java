@@ -69,7 +69,7 @@ public class makeKeyword {
 		tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		
 		DOMSource kkmaSource = new DOMSource(kkma);
-		StreamResult kkmaResult = new StreamResult(new FileOutputStream(new File("src/index.xml")));
+		StreamResult kkmaResult = new StreamResult(new FileOutputStream(new File("C:\\Users\\82103\\SimpleIR\\src\\index.xml")));
 		tf.transform(kkmaSource, kkmaResult);
 		System.out.println("index.xml 생성");
 	}

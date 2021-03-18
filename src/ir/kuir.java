@@ -9,9 +9,19 @@ public class kuir {
 
 	public static void main(String[] args) throws ParserConfigurationException, IOException, TransformerException {
 		// TODO Auto-generated method stub
-		
-		makeCollection.makeXml("src/data");
-		makeKeyword.makeKkma("src/collection.xml");
+		if(args.length == 0) {
+			makeCollection.makeXml("C:\\Users\\82103\\SimpleIR\\src\\data");
+			makeKeyword.makeKkma("C:\\Users\\82103\\SimpleIR\\src\\collection.xml");
+		}
+		else {
+			if(args[0].equals("-c")) {
+				String dirPath = "C:\\Users\\82103\\SimpleIR\\src\\"+args[1];
+				makeCollection.makeXml(dirPath);
+			}
+			else if (args[0].equals("-k")) {
+				makeKeyword.makeKkma(args[1]);
+			}
+		}
 	}
 
 }

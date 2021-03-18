@@ -21,16 +21,17 @@ import org.jsoup.nodes.Document;
 public class makeCollection {
 	public static int checkFiles(File folder) {
 		int index = 0;
-		for (File e : folder.listFiles())
-			index++;
+		if(folder.isDirectory())
+			for (File e : folder.listFiles())
+				index++;
 		return index;
 	}
 
 	public static void dirRead(File folder, String[] name) {
 		int i = 0;
-		for (File e : folder.listFiles()) {
-			name[i++] = e.getName();
-		}
+		if(folder.isDirectory())
+			for (File e : folder.listFiles())
+				name[i++] = e.getName();
 	}
 
 	public static void makeXml(String folderPath)throws IOException, ParserConfigurationException, TransformerException {
@@ -47,7 +48,7 @@ public class makeCollection {
 		dirRead(folder, fName);
 
 		for (int i = 0; i < fileNum; i++) {
-			fName[i] = "src/data/" + fName[i];
+			fName[i] = "C:\\Users\\82103\\SimpleIR\\src\\data\\" + fName[i];
 			File html = new File(fName[i]);
 			FileReader fr = new FileReader(html);
 
@@ -78,7 +79,7 @@ public class makeCollection {
 		tf.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 		
 		DOMSource xmlSource = new DOMSource(xml);
-		StreamResult xmlResult = new StreamResult(new FileOutputStream(new File("src/collection.xml")));
+		StreamResult xmlResult = new StreamResult(new FileOutputStream(new File("C:\\Users\\82103\\SimpleIR\\src\\collection.xml")));
 		tf.transform(xmlSource, xmlResult);
 		System.out.println("collection.xml 생성");
 	}
