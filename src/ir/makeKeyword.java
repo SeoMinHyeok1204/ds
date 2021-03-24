@@ -52,7 +52,7 @@ public class makeKeyword {
 			title.appendChild(kkma.createTextNode(hp.getElementById(String.valueOf(i)).getElementsByTag("title").text()));
 			doc.appendChild(title);
 
-			String bodyText = hp.getElementById(String.valueOf(i)).getAllElements().get(0).text();
+			String bodyText = hp.getElementById(String.valueOf(i)).getAllElements().get(0).ownText();
 			KeywordExtractor ke = new KeywordExtractor();
 			KeywordList kl = ke.extractKeyword(bodyText, true);
 			
