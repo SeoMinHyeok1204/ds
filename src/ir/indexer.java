@@ -33,7 +33,7 @@ public class indexer {
 			String body = parser.getElementById(String.valueOf(index)).getAllElements().get(0).ownText();
 			String[] wordSet = body.split("#");
 			String[][] wordTrim = new String[wordSet.length][3];
-
+			
 			for (int i = 0; i < wordSet.length; i++) {
 				String[] tmp = wordSet[i].split(":");
 				wordTrim[i][0] = tmp[0];
@@ -56,16 +56,33 @@ public class indexer {
 							df++;
 				}
 				wordTrim[i][2] = String.valueOf(df);
+				int[] count = new int[wordSet.length];
+				count[i] = (int)df;
 				weight[i] = Integer.parseInt(wordTrim[i][1]) * Math.log10(5 / df);
 			}
 
 			for (int i = 0; i < wordSet.length; i++) {
 				
-				if (!post.containsKey(wordTrim[i][0]))
-					post.put(wordTrim[i][0], " " + String.valueOf(index) + " " + weight[i]);
+				if (!post.containsKey(wordTrim[i][0])) {
+					String initial = " " + "0" + " " + "0.0" + " " + "1" + " " + "0.0" + " " + "2" + " " + "0.0" + " " + "3" + " " + "0.0" + " " + "4" + " " + "0.0";
+					post.put(wordTrim[i][0], initial);
+					
+					String[] val = initial.split(" ");
+					val[val.length-(11-(index+1)*2)] = String.valueOf(weight[i]);
+					String value = "";
+					for(int j=0; j<val.length;j++)
+						value += " " + val[j];
+					post.put(wordTrim[i][0], value);
+				}
 				else {
-					String nvalue = post.get(wordTrim[i][0]);
-					nvalue += " " + String.valueOf(index) + " " + weight[i];
+					String tmp = post.get(wordTrim[i][0]);
+					String[] pre = tmp.split(" ");
+					
+					pre[pre.length-(11-(index+1)*2)] = String.valueOf(weight[i]);
+					String nvalue = "";
+					for(int j=0; j<pre.length;j++)
+						nvalue += " " + pre[j];
+															
 					post.put(wordTrim[i][0], nvalue);
 				}
 			}

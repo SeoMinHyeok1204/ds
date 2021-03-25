@@ -11,8 +11,8 @@ public class kuir {
 			throws ParserConfigurationException, IOException, TransformerException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		if (args.length == 0) {
-			makeCollection.makeXml("C:\\Users\\82103\\SimpleIR\\src\\data");
-			makeKeyword.makeKkma("C:\\Users\\82103\\SimpleIR\\src\\collection.xml");
+			//makeCollection.makeXml("C:\\Users\\82103\\SimpleIR\\src\\data");
+			//makeKeyword.makeKkma("C:\\Users\\82103\\SimpleIR\\src\\collection.xml");
 			indexer.makePost("C:\\Users\\82103\\SimpleIR\\src\\index.xml");
 		} else {
 			if (args[0].equals("-c")) {
