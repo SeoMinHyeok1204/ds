@@ -56,9 +56,8 @@ public class indexer {
 							df++;
 				}
 				wordTrim[i][2] = String.valueOf(df);
-				int[] count = new int[wordSet.length];
-				count[i] = (int)df;
-				weight[i] = Integer.parseInt(wordTrim[i][1]) * Math.log10(5 / df);
+				weight[i] = Integer.parseInt(wordTrim[i][1]) * Math.log(5 / df);
+				weight[i] = Math.round(weight[i]*100)/100.0;
 			}
 
 			for (int i = 0; i < wordSet.length; i++) {
