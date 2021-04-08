@@ -54,8 +54,10 @@ public class search {
 			}
 			if(similar[i] == 0.0)
 				CosSimilar[i] = 0.0;
-			else
+			else {
 				CosSimilar[i] = similar[i] / (Math.sqrt(kl.size()) * Math.sqrt(length));
+				CosSimilar[i] = Math.round(CosSimilar[i]*100)/100.0;
+			}
 			length = 0.0;
 		}
 		
