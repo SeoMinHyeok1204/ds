@@ -63,14 +63,14 @@ public class indexer {
 			for (int i = 0; i < wordSet.length; i++) {
 				
 				if (!post.containsKey(wordTrim[i][0])) {
-					String initial = " " + "0" + " " + "0.0" + " " + "1" + " " + "0.0" + " " + "2" + " " + "0.0" + " " + "3" + " " + "0.0" + " " + "4" + " " + "0.0";
+					String initial = "0" + " " + "0.0" + " " + "1" + " " + "0.0" + " " + "2" + " " + "0.0" + " " + "3" + " " + "0.0" + " " + "4" + " " + "0.0" + " ";
 					post.put(wordTrim[i][0], initial);
 					
 					String[] val = initial.split(" ");
 					val[val.length-(11-(index+1)*2)] = String.valueOf(weight[i]);
 					String value = "";
 					for(int j=0; j<val.length;j++)
-						value += " " + val[j];
+						value += val[j] + " ";
 					post.put(wordTrim[i][0], value);
 				}
 				else {
@@ -80,7 +80,7 @@ public class indexer {
 					pre[pre.length-(11-(index+1)*2)] = String.valueOf(weight[i]);
 					String nvalue = "";
 					for(int j=0; j<pre.length;j++)
-						nvalue += " " + pre[j];
+						nvalue += pre[j] + " ";
 															
 					post.put(wordTrim[i][0], nvalue);
 				}
