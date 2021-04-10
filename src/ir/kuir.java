@@ -11,9 +11,9 @@ public class kuir {
 			throws ParserConfigurationException, IOException, TransformerException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		if (args.length == 0) {
-			makeCollection.makeXml("C:\\Users\\82103\\SimpleIR\\src\\data");
-			makeKeyword.makeKkma("C:\\Users\\82103\\SimpleIR\\src\\collection.xml");
-			indexer.makePost("C:\\Users\\82103\\SimpleIR\\src\\index.xml");
+			//makeCollection.makeXml("C:\\Users\\82103\\SimpleIR\\src\\data");
+			//makeKeyword.makeKkma("C:\\Users\\82103\\SimpleIR\\src\\collection.xml");
+			//indexer.makePost("C:\\Users\\82103\\SimpleIR\\src\\index.xml");
 			search.CalcSim("C:\\Users\\82103\\SimpleIR\\src\\index.post", "떡 감자 찹쌀 아이스크림 파스타");
 		} else {
 			if (args[0].equals("-c")) {

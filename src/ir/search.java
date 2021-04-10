@@ -28,8 +28,8 @@ public class search {
 		
 		KeywordExtractor ke = new KeywordExtractor();
 		KeywordList kl = ke.extractKeyword(input, true);
-		int[] TF = new int[kl.size()];
-		double[] similar = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		double[] Inner;
+		Inner = InnerProduct(postPath, query);
 		double[] CosSimilar = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 		double length = 0.0;
 		double tmpWeight;
@@ -37,25 +37,24 @@ public class search {
 		for (int i = 0; i < kl.size(); i++) {
 			Keyword kwrd = kl.get(i);
 			System.out.println(i+1+"번 형태소 : "+kwrd.getString());
-			TF[i] = 1;
 		}
 		
-		for (int i = 0; i < similar.length-1; i++) {
+		
+		for (int i = 0; i < Inner.length-1; i++) {
 			System.out.println("========"+i+"번 문서========");
 			for (int j = 0; j < kl.size(); j++) {
 				String value = hashmap.get(kl.get(j).getString());
 				if (value != null) {
 					String[] weight = value.split(" ");
-					similar[i] += TF[j] * Double.valueOf((weight[2 * i + 1]));
 					tmpWeight = Double.valueOf(weight[2*i+1]);
 					length += tmpWeight * tmpWeight;
 					System.out.println(j+1+"번 형태소의 가중치 : "+weight[2*i+1]);
 				}
 			}
-			if(similar[i] == 0.0)
+			if(Inner[i] == 0.0)
 				CosSimilar[i] = 0.0;
 			else {
-				CosSimilar[i] = similar[i] / (Math.sqrt(kl.size()) * Math.sqrt(length));
+				CosSimilar[i] = Inner[i] / (Math.sqrt(kl.size()) * Math.sqrt(length));
 				CosSimilar[i] = Math.round(CosSimilar[i]*100)/100.0;
 			}
 			length = 0.0;
@@ -116,6 +115,38 @@ public class search {
 		System.out.println("유사도 1위 문서의 제목 : "+hp.getElementById(String.valueOf(first)).getElementsByTag("title").text());
 		System.out.println("유사도 2위 문서의 제목 : "+hp.getElementById(String.valueOf(second)).getElementsByTag("title").text());
 		System.out.println("유사도 3위 문서의 제목 : "+hp.getElementById(String.valueOf(third)).getElementsByTag("title").text());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static double[] InnerProduct(String postPath, String query) throws IOException, ClassNotFoundException{
+		FileInputStream fin = new FileInputStream(postPath);
+		ObjectInputStream ois = new ObjectInputStream(fin);
+		Object object = ois.readObject();
+		ois.close();
+
+		HashMap<String, String> hashmap = (HashMap<String, String>) object;
+		Iterator<String> it = hashmap.keySet().iterator();
+
+		String input = query;
+		
+		KeywordExtractor ke = new KeywordExtractor();
+		KeywordList kl = ke.extractKeyword(input, true);
+		int[] TF = new int[kl.size()];
+		double[] similar = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+						
+		for (int i = 0; i < kl.size(); i++) 
+			TF[i] = 1;
+				
+		for (int i = 0; i < similar.length-1; i++) {
+			for (int j = 0; j < kl.size(); j++) {
+				String value = hashmap.get(kl.get(j).getString());
+				if (value != null) {
+					String[] weight = value.split(" ");
+					similar[i] += TF[j] * Double.valueOf((weight[2 * i + 1]));
+				}
+			}
+		}
+		return similar;
 	}
 
 }
