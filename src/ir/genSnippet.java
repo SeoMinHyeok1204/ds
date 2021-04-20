@@ -32,7 +32,7 @@ public class genSnippet {
 						cnt[i]++;
 				}
 			}
-			System.out.println(cnt[i]);
+			//System.out.println(cnt[i]);
 		}
 		
 		int best = 0;
@@ -40,8 +40,7 @@ public class genSnippet {
 			if(cnt[i] > best)
 				best = i;
 		}
-		System.out.println("렝ㅅ"+cnt.length);
-		System.out.println("벳트"+best);
+		
 		System.out.println(input[best]);
 	}
 }
