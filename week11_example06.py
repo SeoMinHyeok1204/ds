@@ -1,7 +1,8 @@
-import sys
+userinput = input()
+argv = userinput.split(" ")
 
-copyName = sys.argv[1]
-pasteName = sys.argv[2]
+copyName = argv[1]
+pasteName = argv[2]
 
 copy = open(copyName, "r")
 content=""

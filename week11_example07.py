@@ -1,6 +1,7 @@
-import sys
+userinput = input()
+argv = userinput.split(" ")
 
-input = sys.argv[1]
+input = argv[1]
 
 f = open(input, "r")
 lNum = 0
