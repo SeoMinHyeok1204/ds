@@ -56,7 +56,6 @@ public static void main(String[] args) {
 			System.out.println("userRating:\t"+itemObject.get("userRating"));
 		}
 	} catch (ParseException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 }
